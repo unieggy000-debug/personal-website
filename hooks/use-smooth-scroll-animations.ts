@@ -126,24 +126,6 @@ export function useSmoothScrollAnimations() {
         });
       }
 
-      const creditsContent = document.querySelector(".credits-content");
-      if (creditsContent) {
-        gsap.fromTo(
-          creditsContent,
-          { y: "20%" },
-          {
-            y: "-100%",
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".credits-section",
-              start: "top top",
-              end: "bottom bottom",
-              scrub: 2,
-            },
-          }
-        );
-      }
-
       gsap.utils.toArray<HTMLElement>(".collage-layer").forEach((layer) => {
         const speed = Number(layer.dataset.speed ?? 0.3);
         gsap.to(layer, {
@@ -184,11 +166,11 @@ export function useSmoothScrollAnimations() {
   }, []);
 }
 
-export function scrollToSection(target: string) {
+export function scrollToSection(target: string | number) {
   const lenis = (window as Window & { __lenis?: Lenis }).__lenis;
   if (lenis) {
     lenis.scrollTo(target, { duration: 1.5 });
-  } else {
+  } else if (typeof target === "string") {
     const el = document.querySelector(target);
     el?.scrollIntoView({ behavior: "smooth" });
   }

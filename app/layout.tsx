@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Oswald } from "next/font/google";
+import { JetBrains_Mono, Noto_Serif_SC, Oswald } from "next/font/google";
 import "./globals.css";
 
 const oswald = Oswald({
@@ -14,10 +14,15 @@ const jetbrains = JetBrains_Mono({
   weight: ["400", "500", "700"],
 });
 
+const notoSerif = Noto_Serif_SC({
+  subsets: ["latin"],
+  variable: "--font-serif-sc",
+  weight: ["400", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "个人作品集 · Soviet Space Portfolio",
-  description:
-    "实习与创作成果展示 — 苏联太空时代美学个人网站",
+  title: "Carol · 周原",
+  description: "周原的个人作品集 — AI 产品经理 / 跨学科创作者",
 };
 
 export default function RootLayout({
@@ -26,7 +31,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className={`${oswald.variable} ${jetbrains.variable}`} lang="zh-CN">
+    <html
+      className={`${oswald.variable} ${jetbrains.variable} ${notoSerif.variable}`}
+      lang="zh-CN"
+    >
       <body className="antialiased">{children}</body>
     </html>
   );

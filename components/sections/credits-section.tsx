@@ -9,39 +9,45 @@ type CreditsSectionProps = {
 export function CreditsSection({ content }: CreditsSectionProps) {
   return (
     <section
-      className="credits-section relative min-h-[200vh] overflow-hidden"
+      className="credits-section relative overflow-hidden px-6 py-16 md:px-12 md:py-20"
       data-section
       id="credits"
     >
-      <div className="pointer-events-none absolute inset-0">
-        {Array.from({ length: 60 }).map((_, i) => (
-          <div
-            className="absolute h-px w-px rounded-full bg-soviet-cream/40"
-            key={`star-${i}`}
-            style={{
-              top: `${(i * 17) % 100}%`,
-              left: `${(i * 23) % 100}%`,
-              opacity: 0.2 + (i % 5) * 0.15,
-            }}
-          />
-        ))}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4"
+      >
+        <span className="display-text select-none text-[20vw] leading-none text-soviet-red/[0.06] md:text-[12vw]">
+          Спасибо
+        </span>
       </div>
 
-      <div className="credits-crawl sticky top-0 flex h-screen items-end justify-center overflow-hidden pb-0">
-        <div className="credits-content w-full max-w-3xl px-8 text-center">
-          <h2 className="display-text mb-12 text-4xl text-soviet-red md:text-6xl">
+      <div className="relative mx-auto max-w-5xl">
+        <div className="mb-10 flex items-end justify-between gap-6 border-b border-soviet-red/30 pb-6">
+          <h2 className="display-text text-5xl text-soviet-red md:text-7xl">
             {content.title}
           </h2>
-
-          {content.lines.map((line) => (
-            <p
-              className="display-text mb-8 text-lg text-soviet-gold md:text-2xl"
-              key={line.slice(0, 40)}
-            >
-              {line}
-            </p>
-          ))}
+          <p className="mono-label hidden text-soviet-muted sm:block">
+            END CREDITS
+          </p>
         </div>
+
+        <ul className="credits-list space-y-0">
+          {content.lines.map((line, i) => (
+            <li
+              className="credits-line group flex items-start gap-4 border-b border-soviet-cream/10 py-5 transition-all duration-300 hover:border-soviet-gold/40 hover:pl-3 md:gap-8"
+              key={line.slice(0, 40)}
+              style={{ transitionDelay: `${i * 40}ms` }}
+            >
+              <span className="mono-label mt-1 shrink-0 text-soviet-red/60">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <p className="display-text text-lg leading-snug text-soviet-gold transition-colors group-hover:text-soviet-cream md:text-2xl">
+                {line}
+              </p>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

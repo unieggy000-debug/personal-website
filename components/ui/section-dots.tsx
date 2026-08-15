@@ -2,7 +2,8 @@
 
 import { cn } from "@/lib/utils";
 import { useLocale } from "@/lib/i18n/locale-provider";
-import { useEffect, useState } from "react";
+import { useActiveSection } from "@/hooks/use-active-section";
+import { useMemo, useState } from "react";
 
 type SectionDotsProps = {
   scrollTo: (target: string | number) => void;
@@ -11,30 +12,9 @@ type SectionDotsProps = {
 export function SectionDots({ scrollTo }: SectionDotsProps) {
   const { content } = useLocale();
   const navigation = content.navigation;
-  const [active, setActive] = useState("home");
+  const sectionIds = useMemo(() => navigation.map((n) => n.id), [navigation]);
+  const active = useActiveSection(sectionIds);
   const [hovered, setHovered] = useState<string | null>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id);
-          }
-        }
-      },
-      { threshold: 0.4 }
-    );
-
-    for (const item of navigation) {
-      const el = document.getElementById(item.id);
-      if (el) {
-        observer.observe(el);
-      }
-    }
-
-    return () => observer.disconnect();
-  }, [navigation]);
 
   return (
     <div className="fixed right-6 top-1/2 z-[1000] hidden -translate-y-1/2 flex-col gap-4 md:flex">

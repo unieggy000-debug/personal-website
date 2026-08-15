@@ -195,6 +195,19 @@ body {
   z-index: 10;
 }
 
+.dossier-card {
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.dossier-card:hover {
+  transform: translateY(-8px) rotate(-0.6deg);
+  z-index: 10;
+}
+
+.dossier-card:hover .dossier-body {
+  box-shadow: 12px 18px 50px rgba(0, 0, 0, 0.55);
+}
+
 .red-line {
   background: linear-gradient(
     90deg,
@@ -266,26 +279,113 @@ section[data-section] {
 }
 
 .hero-poster-subtitle {
-  font-family: var(--font-jetbrains), monospace;
-  font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+  font-family: var(--font-serif-sc), "Noto Serif SC", "Songti SC", serif;
+  font-size: clamp(1.05rem, 2.4vw, 1.65rem);
   font-weight: 400;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.28em;
   color: #ffffff;
-  margin-bottom: clamp(0.25rem, 1vh, 0.75rem);
-  padding-left: 0.1em;
+  line-height: 1.5;
+  max-width: 14em;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.55);
+  z-index: 2;
+}
+
+.hero-poster-title-wrap {
+  overflow: visible;
+  padding-bottom: clamp(1.5rem, 5vh, 3.5rem);
 }
 
 .hero-poster-title {
   font-family: var(--font-oswald), sans-serif;
   font-weight: 700;
   letter-spacing: -0.03em;
-  line-height: 0.68;
+  line-height: 0.85;
   color: #9c2727;
   text-transform: uppercase;
-  transform: scaleY(1.85);
+  transform: scaleY(1.55);
   transform-origin: bottom left;
-  margin-bottom: -4vh;
   white-space: nowrap;
   width: max-content;
-  max-width: 100%;
+  max-width: none;
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.font-serif-sc {
+  font-family: var(--font-serif-sc), "Noto Serif SC", "Songti SC", serif;
+}
+
+@keyframes wifi-bar-in {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 40;
+  }
+  100% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes wifi-fade-out {
+  0%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.craft-wifi {
+  animation: wifi-fade-out 0.65s ease-out forwards;
+}
+
+.wifi-bar {
+  opacity: 0;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 40;
+}
+
+.wifi-bar-1 {
+  animation: wifi-bar-in 0.18s ease-out 0.02s forwards;
+}
+
+.wifi-bar-2 {
+  animation: wifi-bar-in 0.18s ease-out 0.14s forwards;
+}
+
+.wifi-bar-3 {
+  animation: wifi-bar-in 0.18s ease-out 0.26s forwards;
+}
+
+.craft-ship {
+  transition: transform 0.15s ease;
+}
+
+.craft-ping .craft-ship {
+  transform: scale(1.25);
+  filter: drop-shadow(0 0 10px rgba(212, 160, 23, 0.8));
+}
+
+@keyframes works-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.works-marquee {
+  width: max-content;
+  animation: works-marquee 28s linear infinite;
+}
+
+.credits-line:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(196, 30, 30, 0.08),
+    transparent 60%
+  );
 }

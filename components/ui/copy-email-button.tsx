@@ -73,7 +73,7 @@ export function CopyEmailButton({
     <button
       aria-label={content.ui.copyEmail}
       className={cn(
-        "group flex items-center gap-2 transition-colors",
+        "group relative flex items-center gap-2 transition-colors",
         variant === "icon"
           ? "border border-soviet-red/30 p-2 text-soviet-cream/70 hover:border-soviet-red hover:text-soviet-red"
           : "border border-soviet-red/40 px-4 py-2 font-mono text-xs text-soviet-cream/80 hover:border-soviet-red hover:text-soviet-red",
@@ -96,6 +96,11 @@ export function CopyEmailButton({
       {variant === "full" && !showLabel && (
         <span className="mono-label text-[10px]">
           {copied ? content.ui.copied : content.ui.copyEmail}
+        </span>
+      )}
+      {variant === "icon" && copied && (
+        <span className="pointer-events-none absolute top-full left-1/2 z-50 mt-1 -translate-x-1/2 whitespace-nowrap border border-soviet-gold/40 bg-soviet-black px-2 py-1 mono-label text-[10px] text-soviet-gold">
+          {content.ui.copied}
         </span>
       )}
     </button>

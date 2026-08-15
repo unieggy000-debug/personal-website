@@ -88,6 +88,7 @@ export type SiteConfig = {
   email: string;
   author: string;
   portrait: string;
+  githubUrl: string;
   collageImages: string[];
 };
 

@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import { LanguageToggle } from "@/components/ui/language-toggle";
 import { CopyEmailButton } from "@/components/ui/copy-email-button";
-import { useEffect, useState } from "react";
+import { GithubLinkButton } from "@/components/ui/github-link-button";
+import { useActiveSection } from "@/hooks/use-active-section";
+import { useEffect, useMemo, useState } from "react";
 
 type NavigationProps = {
   scrollTo: (target: string | number) => void;
@@ -13,29 +15,11 @@ type NavigationProps = {
 export function Navigation({ scrollTo }: NavigationProps) {
   const { content } = useLocale();
   const navigation = content.navigation;
-  const [active, setActive] = useState("home");
+  const sectionIds = useMemo(() => navigation.map((n) => n.id), [navigation]);
+  const active = useActiveSection(sectionIds);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const sections = navigation.map((n) => document.getElementById(n.id));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(entry.target.id);
-          }
-        }
-      },
-      { threshold: 0.4 }
-    );
-
-    for (const section of sections) {
-      if (section) {
-        observer.observe(section);
-      }
-    }
-
     const onScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -48,7 +32,6 @@ export function Navigation({ scrollTo }: NavigationProps) {
     window.addEventListener("keydown", onKey);
 
     return () => {
-      observer.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("keydown", onKey);
     };
@@ -66,15 +49,15 @@ export function Navigation({ scrollTo }: NavigationProps) {
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-3 md:px-6 md:py-4">
         <button
           className={cn(
-            "mono-label shrink-0 transition-colors",
+            "display-text shrink-0 text-lg tracking-[0.12em] transition-colors md:text-xl",
             scrolled
               ? "text-soviet-red hover:text-soviet-cream"
-              : "text-white/80 hover:text-white"
+              : "text-white/90 hover:text-white"
           )}
           onClick={() => scrollTo("#home")}
           type="button"
         >
-          [ {content.ui.portfolio} ]
+          Carol
         </button>
 
         <ul className="flex flex-1 items-center justify-center gap-0.5 md:gap-4">
@@ -110,6 +93,7 @@ export function Navigation({ scrollTo }: NavigationProps) {
 
         <div className="flex shrink-0 items-center gap-2">
           <CopyEmailButton />
+          <GithubLinkButton />
           <LanguageToggle />
         </div>
       </nav>

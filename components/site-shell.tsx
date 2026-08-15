@@ -16,11 +16,12 @@ import { AboutSection } from "@/components/sections/about-section";
 import { PortfolioSection } from "@/components/sections/portfolio-section";
 import { CreditsSection } from "@/components/sections/credits-section";
 import { FooterCollage } from "@/components/ui/footer-collage";
+import { BackgroundMusic } from "@/components/ui/background-music";
 
 function SiteContent() {
   useSmoothScrollAnimations();
   const scrollTo = scrollToSection;
-  const { content, config } = useLocale();
+  const { content } = useLocale();
 
   return (
     <>
@@ -29,11 +30,12 @@ function SiteContent() {
       <Navigation scrollTo={scrollTo} />
       <SectionDots scrollTo={scrollTo} />
       <CustomCursor />
+      <BackgroundMusic />
       <CrtOverlay />
 
       <main className="custom-cursor-active relative bg-[#0a0a0a]">
         <HeroSection hero={content.hero} />
-        <AboutSection about={content.about} portrait={config.portrait} />
+        <AboutSection about={content.about} />
         <PortfolioSection ui={content.ui} works={content.works} />
         <CreditsSection content={content.credits} />
         <FooterCollage />
