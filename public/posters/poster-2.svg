@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="520" viewBox="0 0 400 520">
+  <rect fill="#0d0d0d" width="400" height="520"/>
+  <rect fill="#c41e1e" x="0" y="0" width="400" height="200"/>
+  <circle fill="#f5e6c8" cx="200" cy="120" r="55"/>
+  <text x="200" y="280" fill="#f5e6c8" font-family="Arial Black,sans-serif" font-size="24" font-weight="900" text-anchor="middle"> </text>
+  <text x="200" y="320" fill="#888" font-family="monospace" font-size="13" text-anchor="middle">12.04.1961 � VOSTOK-1</text>
+  <text x="200" y="400" fill="#c41e1e" font-family="monospace" font-size="11" text-anchor="middle"> + '  !!</text>
+  <rect fill="none" stroke="#f5e6c8" stroke-width="2" x="15" y="15" width="370" height="490"/>
+</svg>

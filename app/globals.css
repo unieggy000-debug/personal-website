@@ -1,0 +1,291 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-soviet-red: #c41e1e;
+  --color-soviet-red-dark: #8b0000;
+  --color-soviet-cream: #f5e6c8;
+  --color-soviet-gold: #d4a017;
+  --color-soviet-black: #0a0a0a;
+  --color-soviet-gray: #1a1a1a;
+  --color-soviet-muted: #888888;
+  --font-display: var(--font-oswald);
+  --font-mono: var(--font-jetbrains);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  background-color: #0a0a0a;
+  color: #f5e6c8;
+  font-family: var(--font-jetbrains), "Courier New", monospace;
+  overflow-x: hidden;
+}
+
+.hero-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(196, 30, 30, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 85% 90%, rgba(139, 0, 0, 0.3) 0%, transparent 50%),
+    linear-gradient(175deg, #0a0a0a 0%, #1a0808 45%, #0d0505 100%);
+}
+
+.paper-texture {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+
+::selection {
+  background: var(--color-soviet-red);
+  color: var(--color-soviet-cream);
+}
+
+.display-text {
+  font-family: var(--font-oswald), sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.mono-label {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.crt-overlay {
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.06) 3px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+}
+
+.grain-overlay {
+  opacity: 0.05;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+@keyframes glitch {
+  0%,
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+  }
+  20% {
+    clip-path: inset(20% 0 60% 0);
+    transform: translate(-3px, 2px);
+  }
+  40% {
+    clip-path: inset(60% 0 10% 0);
+    transform: translate(3px, -1px);
+  }
+  60% {
+    clip-path: inset(40% 0 30% 0);
+    transform: translate(-2px, 1px);
+  }
+  80% {
+    clip-path: inset(10% 0 70% 0);
+    transform: translate(2px, -2px);
+  }
+}
+
+.glitch-text {
+  position: relative;
+}
+
+.glitch-text:hover {
+  animation: glitch 0.4s steps(2) infinite;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.glitch-text:hover::before {
+  color: #00ffff;
+  opacity: 0.7;
+  animation: glitch 0.3s steps(2) infinite;
+  transform: translate(-2px, 0);
+}
+
+.glitch-text:hover::after {
+  color: #ff00ff;
+  opacity: 0.7;
+  animation: glitch 0.3s steps(2) infinite reverse;
+  transform: translate(2px, 0);
+}
+
+@keyframes scroll-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.5;
+  }
+}
+
+.scroll-hint {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+.duotone-red {
+  filter: grayscale(40%) sepia(20%) saturate(180%) hue-rotate(-5deg) contrast(1.05);
+}
+
+.credits-crawl {
+  perspective: 400px;
+  perspective-origin: 50% 100%;
+}
+
+.credits-content {
+  transform: rotateX(25deg);
+  transform-origin: 50% 100%;
+}
+
+.horizontal-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+}
+
+.poster-card {
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.poster-card:hover {
+  transform: scale(1.03) rotate(-0.5deg);
+  z-index: 10;
+}
+
+.red-line {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-soviet-red),
+    transparent
+  );
+  height: 1px;
+}
+
+section[data-section] {
+  min-height: 100vh;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-soviet-black);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-soviet-red);
+}
+
+@media (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+.collage-layer {
+  will-change: transform;
+}
+
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  background: rgba(10, 10, 10, 0.85);
+}
+
+.reveal-line {
+  overflow: hidden;
+}
+
+.reveal-line-inner {
+  transform: translateY(110%);
+}
+
+.scroll-progress-bar {
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.hero-poster-subtitle {
+  font-family: var(--font-jetbrains), monospace;
+  font-size: clamp(0.65rem, 1.2vw, 0.8rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin-bottom: clamp(0.25rem, 1vh, 0.75rem);
+  padding-left: 0.1em;
+}
+
+.hero-poster-title {
+  font-family: var(--font-oswald), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.68;
+  color: #9c2727;
+  text-transform: uppercase;
+  transform: scaleY(1.85);
+  transform-origin: bottom left;
+  margin-bottom: -4vh;
+  white-space: nowrap;
+  width: max-content;
+  max-width: 100%;
+}

@@ -1,0 +1,367 @@
+import type { Locale, LocaleContent, SiteConfig, SiteContentMap } from "./types";
+
+export type { Locale, LocaleContent, SiteConfig };
+
+/** 全局配置（不随语言变化） */
+export const siteConfig: SiteConfig = {
+  email: "hello@example.com",
+  author: "YOUR NAME",
+  portrait: "/posters/poster-2.svg",
+  collageImages: [
+    "/posters/poster-1.svg",
+    "/posters/poster-2.svg",
+    "/posters/poster-3.svg",
+    "/posters/poster-4.svg",
+    "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80",
+    "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=800&q=80",
+  ],
+};
+
+const workImages = {
+  w1: "/posters/poster-1.svg",
+  w2: "/posters/poster-2.svg",
+  w3: "/posters/poster-3.svg",
+  w4: "/posters/poster-4.svg",
+  w5: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=800&q=80",
+  unsplash1: "https://images.unsplash.com/photo-1454789548928-9efd52dc4031?w=800&q=80",
+  unsplash2: "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80",
+};
+
+export const siteContent: SiteContentMap = {
+  zh: {
+    meta: {
+      title: "个人作品集 · 苏联太空美学",
+      description: "实习与创作成果展示 — 苏联太空时代美学个人网站",
+    },
+    ui: {
+      portfolio: "作品集",
+      scroll: "向下滚动",
+      dragPosters: "海报可拖拽移动",
+      posterLabel: "海报",
+      personalFile: "个人档案",
+      skills: "技能",
+      missionLog: "任务日志",
+      missionArchive: "任务档案",
+      selectedWorks: "精选作品",
+      worksIntro: "项任务已记录 — 横向滚动浏览完整档案",
+      clickToOpen: "点击查看 →",
+      moreMissions: "更多任务",
+      addWorksHint: "在 site-content.ts 中添加作品",
+      scrollArchive: "← 滚动浏览档案 →",
+      viewProject: "查看项目 →",
+      closeModal: "[ ESC / 关闭 ]",
+      loading: "加载中",
+      copied: "已复制",
+      copyEmail: "复制邮箱",
+      copyFailed: "复制失败",
+      terminalComplete: '$ echo "任务完成"',
+      terminalExit: "SYSTEM: GRATITUDE_EXPRESSED.exe // EXIT_CODE: 0",
+    },
+    preloader: [
+      "> 系统启动 / SYSTEM INIT...",
+      "> 加载宇航员数据...",
+      "> 校准星空参数...",
+      "> 初始化海报引擎...",
+      "> 所有系统正常",
+    ],
+    hero: {
+      tagline: "我们如何抵达未来",
+      headline: "THE WAY IS OPEN FOR US",
+      subheadline: "",
+      period: "",
+    },
+    about: {
+      fileNumber: "个人档案 № 001",
+      name: "YOUR NAME",
+      role: "创意开发者 / 设计师",
+      bio: "目前在创意工作室实习，构建如同来自另一时间线的宣传海报式界面。曾学习视觉传达与前端开发。相信每个作品集都应像苏联太空计划的任务日志—— bold、档案感、边缘略带 decay 质感。",
+      stats: [
+        { label: "状态", value: "任务进行中" },
+        { label: "位置", value: "地球轨道" },
+        { label: "时长", value: "2+ 年" },
+        { label: "专长", value: "UI / 动效 / 网页" },
+      ],
+      timeline: [
+        {
+          year: "2026",
+          title: "当前实习",
+          description:
+            "在创意机构构建交互体验与品牌系统，专注滚动叙事与粗野主义网页美学。",
+          location: "上海",
+        },
+        {
+          year: "2025",
+          title: "视觉传达学习",
+          description: "深入研究构成主义海报设计、字体系统与网页动效。",
+          location: "大学",
+        },
+        {
+          year: "2024",
+          title: "首次入轨 — 网页开发",
+          description:
+            "使用 React、Next.js 与 GSAP 发布首个个人项目，发现 Soviet Space longride 美学。",
+          location: "自学",
+        },
+      ],
+      skills: [
+        "React / Next.js",
+        "TypeScript",
+        "GSAP / 动效",
+        "Figma",
+        "Three.js",
+        "Tailwind CSS",
+      ],
+    },
+    works: [
+      {
+        id: "work-01",
+        title: "斯普特尼克界面",
+        subtitle: "任务控制面板",
+        year: "2026",
+        category: "UI / 交互",
+        description:
+          "受苏联任务控制面板启发的遥测风格仪表盘，实时数据可视化，CRT 扫描线与等宽字体。",
+        image: workImages.w1,
+        collageImages: [workImages.w1, workImages.unsplash1],
+        tags: ["React", "GSAP", "Dashboard"],
+        link: "#",
+      },
+      {
+        id: "work-02",
+        title: "东方号品牌系统",
+        subtitle: "太空展览海报系统",
+        year: "2025",
+        category: "品牌 / 平面",
+        description:
+          "虚构苏联太空展览视觉识别，构成主义大字排版，红黑配色与档案拼贴。",
+        image: workImages.w2,
+        collageImages: [workImages.w2, workImages.unsplash2],
+        tags: ["Branding", "Typography", "Print"],
+        link: "#",
+      },
+      {
+        id: "work-03",
+        title: "莱卡动效研究",
+        subtitle: "滚动驱动动画序列",
+        year: "2025",
+        category: "动效 / 网页",
+        description:
+          "长滚动叙事网站，横向 Pin 段落、视差拼贴层，直接致敬 Soviet Space longride。",
+        image: workImages.w3,
+        tags: ["ScrollTrigger", "Lenis", "Collage"],
+        link: "#",
+      },
+      {
+        id: "work-04",
+        title: "加加林档案",
+        subtitle: "交互图片展览",
+        year: "2024",
+        category: "展览 / 网页",
+        description:
+          "可拖拽海报画廊，双色调滤镜与 glitch hover，像实体展览一样 rearrange 档案影像。",
+        image: workImages.w4,
+        collageImages: [workImages.w4, workImages.unsplash2],
+        tags: ["Interactive", "Gallery", "WebGL"],
+        link: "#",
+      },
+      {
+        id: "work-05",
+        title: "阿波罗-联盟协作",
+        subtitle: "跨平台设计系统",
+        year: "2024",
+        category: "设计系统",
+        description:
+          "统一组件库，粗野主义网页美学与无障碍 UI 结合，文档如苏联技术手册编号章节。",
+        image: workImages.w5,
+        tags: ["Design System", "Components", "Docs"],
+        link: "#",
+      },
+    ],
+    credits: {
+      title: "致谢",
+      lines: [
+        "致实习期间的导师 — 感谢信任我参与真实任务",
+        "致 Elena Starikova — Soviet Space longride 美学的灵感来源",
+        "致公有领域档案 — 感谢影像素材",
+        "致 GSAP、Lenis 与 Next.js — 这艘飞船的引擎",
+        "致滚动到底的你 — 你才是真正的宇航员",
+      ],
+      footer:
+        "本站为非商业作品集用途创建，所有占位素材版权归其持有者所有。",
+    },
+    navigation: [
+      { id: "home", label: "首页" },
+      { id: "about", label: "简介" },
+      { id: "works", label: "作品" },
+      { id: "credits", label: "致谢" },
+    ],
+  },
+
+  en: {
+    meta: {
+      title: "Portfolio · Soviet Space Aesthetic",
+      description:
+        "Internship and creative work showcase — Soviet Space Age aesthetic portfolio",
+    },
+    ui: {
+      portfolio: "PORTFOLIO",
+      scroll: "SCROLL",
+      dragPosters: "THESE POSTERS CAN BE MOVED",
+      posterLabel: "POSTER",
+      personalFile: "PERSONAL FILE",
+      skills: "SKILLS",
+      missionLog: "MISSION LOG",
+      missionArchive: "MISSION ARCHIVE",
+      selectedWorks: "SELECTED WORKS",
+      worksIntro: "MISSIONS DOCUMENTED — SCROLL HORIZONTALLY TO EXPLORE",
+      clickToOpen: "CLICK TO OPEN →",
+      moreMissions: "MORE MISSIONS",
+      addWorksHint: "ADD MORE WORKS IN site-content.ts",
+      scrollArchive: "← SCROLL TO NAVIGATE ARCHIVE →",
+      viewProject: "VIEW PROJECT →",
+      closeModal: "[ ESC / CLOSE ]",
+      loading: "LOADING",
+      copied: "COPIED",
+      copyEmail: "Copy email",
+      copyFailed: "Copy failed",
+      terminalComplete: '$ echo "mission complete"',
+      terminalExit: "SYSTEM: GRATITUDE_EXPRESSED.exe // EXIT_CODE: 0",
+    },
+    preloader: [
+      "> СИСТЕМА ЗАПУСКА / SYSTEM INIT...",
+      "> LOADING COSMONAUT DATA...",
+      "> CALIBRATING STAR FIELD...",
+      "> INITIALIZING POSTER ENGINE...",
+      "> ALL SYSTEMS NOMINAL",
+    ],
+    hero: {
+      tagline: "我们如何抵达未来",
+      headline: "THE WAY IS OPEN FOR US",
+      subheadline: "",
+      period: "",
+    },
+    about: {
+      fileNumber: "ЛИЧНОЕ ДЕЛО № 001",
+      name: "YOUR NAME",
+      role: "CREATIVE DEVELOPER / DESIGNER",
+      bio: "Currently interning at a creative studio, building interfaces that feel like propaganda posters from another timeline. Previously studied visual communication and front-end development.",
+      stats: [
+        { label: "STATUS", value: "ACTIVE MISSION" },
+        { label: "LOCATION", value: "EARTH ORBIT" },
+        { label: "DURATION", value: "2+ YEARS" },
+        { label: "SPECIALTY", value: "UI / MOTION / WEB" },
+      ],
+      timeline: [
+        {
+          year: "2026",
+          title: "CURRENT INTERNSHIP",
+          description:
+            "Building interactive experiences and brand systems at a creative agency.",
+          location: "Shanghai",
+        },
+        {
+          year: "2025",
+          title: "VISUAL COMMUNICATION STUDIES",
+          description:
+            "Constructivist poster design, typography systems, and motion graphics.",
+          location: "University",
+        },
+        {
+          year: "2024",
+          title: "FIRST ORBIT — WEB DEVELOPMENT",
+          description:
+            "First personal projects with React, Next.js, and GSAP.",
+          location: "Self-initiated",
+        },
+      ],
+      skills: [
+        "React / Next.js",
+        "TypeScript",
+        "GSAP / Motion",
+        "Figma",
+        "Three.js",
+        "Tailwind CSS",
+      ],
+    },
+    works: [
+      {
+        id: "work-01",
+        title: "SPUTNIK INTERFACE",
+        subtitle: "Mission Control Dashboard",
+        year: "2026",
+        category: "UI / INTERACTION",
+        description:
+          "Telemetry-style dashboard inspired by Soviet mission control panels.",
+        image: workImages.w1,
+        collageImages: [workImages.w1, workImages.unsplash1],
+        tags: ["React", "GSAP", "Dashboard"],
+        link: "#",
+      },
+      {
+        id: "work-02",
+        title: "VOSTOK BRANDING",
+        subtitle: "Poster System for Space Exhibition",
+        year: "2025",
+        category: "BRAND / PRINT",
+        description:
+          "Visual identity for a fictional Soviet space exhibition.",
+        image: workImages.w2,
+        collageImages: [workImages.w2, workImages.unsplash2],
+        tags: ["Branding", "Typography", "Print"],
+        link: "#",
+      },
+      {
+        id: "work-03",
+        title: "LAIKA MOTION STUDY",
+        subtitle: "Scroll-Driven Animation Sequence",
+        year: "2025",
+        category: "MOTION / WEB",
+        description: "Long-scroll narrative inspired by Soviet Space longride.",
+        image: workImages.w3,
+        tags: ["ScrollTrigger", "Lenis", "Collage"],
+        link: "#",
+      },
+      {
+        id: "work-04",
+        title: "GAGARIN ARCHIVE",
+        subtitle: "Interactive Photo Exhibition",
+        year: "2024",
+        category: "EXHIBITION / WEB",
+        description: "Draggable poster gallery with duotone and glitch effects.",
+        image: workImages.w4,
+        collageImages: [workImages.w4, workImages.unsplash2],
+        tags: ["Interactive", "Gallery", "WebGL"],
+        link: "#",
+      },
+      {
+        id: "work-05",
+        title: "APOLLO-SOYUZ COLLAB",
+        subtitle: "Cross-Platform Design System",
+        year: "2024",
+        category: "DESIGN SYSTEM",
+        description: "Component library documented like a Soviet technical manual.",
+        image: workImages.w5,
+        tags: ["Design System", "Components", "Docs"],
+        link: "#",
+      },
+    ],
+    credits: {
+      title: "ACKNOWLEDGMENTS",
+      lines: [
+        "TO MY MENTORS — FOR TRUSTING ME WITH REAL MISSIONS",
+        "TO ELENA STARIKOVA — SOVIET SPACE LONGRIDE INSPIRATION",
+        "TO PUBLIC DOMAIN ARCHIVES — FOR THE IMAGERY",
+        "TO GSAP, LENIS, AND NEXT.JS — ENGINES OF THIS SPACECRAFT",
+        "TO EVERYONE WHO SCROLLED DOWN — YOU ARE THE COSMONAUTS",
+      ],
+      footer:
+        "CREATED FOR NON-COMMERCIAL PORTFOLIO PURPOSES. ALL MATERIALS BELONG TO THEIR COPYRIGHT HOLDERS.",
+    },
+    navigation: [
+      { id: "home", label: "HOME" },
+      { id: "about", label: "ABOUT" },
+      { id: "works", label: "WORKS" },
+      { id: "credits", label: "CREDITS" },
+    ],
+  },
+};
