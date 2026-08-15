@@ -76,11 +76,11 @@ export function HeroSection({ hero }: HeroSectionProps) {
       </div>
 
       {/* Chinese subtitle — mid-left, clear of red title */}
-      <p className="hero-poster-subtitle absolute top-[34%] left-4 z-20 md:left-10 lg:left-14">
+      <p className="hero-poster-subtitle absolute top-[44%] left-4 z-20 md:left-10 lg:left-14">
         {hero.tagline}
       </p>
 
-      <div className="pointer-events-none absolute top-[28%] right-6 z-10 hidden select-none md:block">
+      <div className="pointer-events-none absolute top-[38%] right-6 z-10 hidden select-none md:block">
         <span className="mono-label rotate-90 origin-top-right text-white/25 tracking-[0.4em]">
           ARCHIVE / 001
         </span>

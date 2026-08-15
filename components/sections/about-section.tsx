@@ -4,6 +4,7 @@ import { CopyEmailButton } from "@/components/ui/copy-email-button";
 import { GithubLinkButton } from "@/components/ui/github-link-button";
 import { useLocale } from "@/lib/i18n/locale-provider";
 import type { LocaleContent } from "@/lib/content/types";
+import { useEffect, useState } from "react";
 
 type AboutSectionProps = {
   about: LocaleContent["about"];
@@ -12,112 +13,135 @@ type AboutSectionProps = {
 export function AboutSection({ about }: AboutSectionProps) {
   const { content } = useLocale();
   const { ui } = content;
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    setActive(0);
+  }, [about.timeline]);
 
   return (
     <section
-      className="about-section relative overflow-hidden px-6 py-20 md:px-12 md:py-24"
+      className="about-section relative overflow-hidden px-6 py-20 md:px-10 md:py-24 lg:px-14"
       data-section
       id="about"
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-8 top-24 select-none font-serif-sc text-[18vw] leading-none text-soviet-red/[0.07] md:top-16"
-      >
-        周
-      </div>
+      <div className="relative mx-auto grid max-w-6xl gap-12 lg:grid-cols-[minmax(220px,0.9fr)_1.4fr] lg:gap-16 xl:gap-24">
+        {/* Left: curved timeline */}
+        <aside className="relative min-h-[420px] lg:min-h-[560px]">
+          <svg
+            aria-hidden
+            className="pointer-events-none absolute inset-0 h-full w-full"
+            preserveAspectRatio="none"
+            viewBox="0 0 200 560"
+          >
+            <path
+              d="M 70 20 C 30 140, 30 280, 70 400 C 95 470, 120 520, 150 540"
+              fill="none"
+              stroke="rgba(136,136,136,0.45)"
+              strokeWidth="1.2"
+            />
+          </svg>
 
-      <div className="relative mx-auto max-w-6xl">
-        <div className="mb-12 flex flex-col gap-6 md:mb-16 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="mono-label mb-3 text-soviet-red">{about.fileNumber}</p>
-            <h2 className="display-text text-3xl text-soviet-cream/40 md:text-5xl">
-              {ui.personalFile}
-            </h2>
-            <h3 className="display-text mt-2 text-6xl text-soviet-cream md:-mt-2 md:text-8xl">
-              {about.name}
-            </h3>
-          </div>
-          <div className="max-w-md md:pb-2 md:text-right">
-            <p className="mono-label mb-3 text-soviet-gold">{about.role}</p>
-            <p className="font-serif-sc text-base leading-relaxed text-soviet-cream/75 md:text-lg">
-              {about.bio}
-            </p>
-          </div>
-        </div>
+          <p className="mono-label absolute top-0 left-0 text-soviet-muted/70 [writing-mode:vertical-rl] rotate-180 tracking-[0.35em]">
+            {about.timeline[0]?.year?.slice(0, 4) ?? "2024"}
+          </p>
 
-        <div className="fade-up mb-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {about.stats.map((stat, i) => (
-            <div
-              className="group border border-soviet-red/30 bg-gradient-to-br from-soviet-gray/40 to-transparent p-4 transition-transform duration-300 hover:-translate-y-1 hover:border-soviet-red"
-              key={stat.label}
-              style={{ transform: `rotate(${i % 2 === 0 ? -0.6 : 0.6}deg)` }}
-            >
-              <p className="mono-label mb-2 text-soviet-muted">{stat.label}</p>
-              <p className="display-text text-xl text-soviet-cream">{stat.value}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="fade-up mb-10">
-          <div className="mb-3 flex items-baseline gap-4">
-            <p className="mono-label text-soviet-red">{ui.skills}</p>
-            <div className="h-px flex-1 bg-soviet-red/20" />
+          <div className="relative z-10 flex h-full flex-col justify-between py-6 pl-10 md:pl-14">
+            {about.timeline.map((event, i) => {
+              const isActive = active === i;
+              return (
+                <button
+                  className="group relative flex items-start gap-4 text-left"
+                  key={event.year + event.title}
+                  onClick={() => setActive(i)}
+                  onMouseEnter={() => setActive(i)}
+                  type="button"
+                  style={{
+                    marginLeft: `${Math.min(i * 10, 36)}px`,
+                  }}
+                >
+                  <span
+                    className={`mt-2 h-2.5 w-2.5 shrink-0 rounded-full border transition-all duration-300 ${
+                      isActive
+                        ? "scale-125 border-soviet-red bg-soviet-red shadow-[0_0_12px_rgba(196,30,30,0.7)]"
+                        : "border-soviet-muted bg-transparent group-hover:border-soviet-gold"
+                    }`}
+                  />
+                  <div>
+                    <p
+                      className={`display-text transition-all duration-300 ${
+                        isActive
+                          ? "text-3xl text-soviet-red md:text-4xl"
+                          : "text-2xl text-soviet-muted/50 md:text-3xl"
+                      }`}
+                    >
+                      {event.year}
+                    </p>
+                    {isActive && (
+                      <div className="mt-2 max-w-[14rem] animate-[fadeIn_0.35s_ease]">
+                        <p className="mono-label text-[10px] text-soviet-gold">
+                          {event.location ?? "MISSION"}
+                        </p>
+                        <p className="mt-1 font-serif-sc text-sm text-soviet-cream md:text-base">
+                          {event.title}
+                        </p>
+                        <p className="mt-2 font-mono text-[11px] leading-relaxed text-soviet-cream/50">
+                          {event.description}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </button>
+              );
+            })}
           </div>
-          <div className="flex flex-wrap gap-2">
-            {about.skills.map((skill, i) => (
+        </aside>
+
+        {/* Right: flexible identity stack */}
+        <div className="relative flex flex-col justify-center">
+          <p className="mono-label mb-3 text-soviet-red">{about.fileNumber}</p>
+          <h2 className="display-text mb-1 text-2xl text-soviet-cream/35 md:text-3xl">
+            {ui.personalFile}
+          </h2>
+          <h3 className="display-text text-5xl text-soviet-cream md:text-7xl">
+            {about.name}
+          </h3>
+          <p className="mono-label mt-3 text-soviet-gold">{about.role}</p>
+
+          <p className="mt-8 max-w-lg font-serif-sc text-base leading-relaxed text-soviet-cream/75 md:text-lg">
+            {about.bio}
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-2">
+            {about.stats.map((stat) => (
               <span
-                className="skill-chip border border-soviet-red/40 px-3 py-1.5 font-mono text-xs text-soviet-cream/80 transition-all duration-300 hover:border-soviet-red hover:bg-soviet-red hover:text-soviet-cream"
-                key={skill}
-                style={{ transitionDelay: `${i * 20}ms` }}
+                className="border border-soviet-red/35 px-3 py-1.5 font-mono text-xs text-soviet-cream/80"
+                key={stat.label}
               >
-                {skill}
+                <span className="text-soviet-muted">{stat.label}</span>
+                <span className="mx-2 text-soviet-red/40">/</span>
+                {stat.value}
               </span>
             ))}
           </div>
-        </div>
 
-        <div className="fade-up mb-12 flex flex-wrap gap-2">
-          <CopyEmailButton showLabel variant="full" />
-          <GithubLinkButton showLabel variant="full" />
-        </div>
+          <div className="mt-8">
+            <p className="mono-label mb-3 text-soviet-red">{ui.skills}</p>
+            <div className="flex flex-wrap gap-2">
+              {about.skills.map((skill) => (
+                <span
+                  className="border border-soviet-red/40 px-3 py-1 font-mono text-xs text-soviet-cream/80 transition-colors hover:border-soviet-red hover:bg-soviet-red hover:text-soviet-cream"
+                  key={skill}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
 
-        <div className="relative">
-          <div
-            className="timeline-line absolute top-0 left-0 h-full w-px origin-top bg-soviet-red/80 md:left-28"
-            style={{ transform: "scaleY(0)" }}
-          />
-
-          <div className="space-y-0">
-            {about.timeline.map((event, i) => (
-              <div
-                className="fade-up group relative grid gap-4 border-b border-soviet-red/15 py-8 pl-8 transition-colors hover:bg-soviet-red/[0.03] md:grid-cols-[7rem_1fr] md:gap-10 md:pl-0"
-                key={event.year + event.title}
-              >
-                <div className="timeline-node absolute top-10 left-0 z-10 h-2.5 w-2.5 -translate-x-1/2 rounded-full border-2 border-soviet-red bg-soviet-black md:left-28" />
-                <p className="mono-label pt-1 text-soviet-red md:text-right">
-                  {event.year}
-                </p>
-                <div className="md:pr-8">
-                  <div className="flex flex-wrap items-baseline gap-3">
-                    <h4 className="display-text text-2xl text-soviet-cream transition-colors group-hover:text-soviet-gold md:text-3xl">
-                      {event.title}
-                    </h4>
-                    {event.location && (
-                      <span className="mono-label text-soviet-muted">
-                        {event.location}
-                      </span>
-                    )}
-                  </div>
-                  <p className="mt-3 max-w-2xl font-mono text-sm leading-relaxed text-soviet-cream/55">
-                    {event.description}
-                  </p>
-                  <span className="mono-label mt-3 inline-block text-[10px] text-soviet-red/40">
-                    {String(i + 1).padStart(2, "0")} /{" "}
-                    {String(about.timeline.length).padStart(2, "0")}
-                  </span>
-                </div>
-              </div>
-            ))}
+          <div className="mt-8 flex flex-wrap gap-2">
+            <CopyEmailButton showLabel variant="full" />
+            <GithubLinkButton showLabel variant="full" />
           </div>
         </div>
       </div>

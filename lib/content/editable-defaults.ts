@@ -80,16 +80,13 @@ export function applyEditableContent(editable: EditableContent): {
     if (prev) {
       return {
         ...prev,
-        // Mirror title from zh edit; keep other EN copy when id matches.
-        title: work.title,
+        // Keep EN copy (title/subtitle/description); sync media + link from CMS.
         image: work.image,
         collageImages: work.collageImages,
         year: work.year,
-        tags: work.tags,
         link: work.link,
       };
     }
-    // New works: use zh fields as EN until separately localized.
     return { ...work };
   });
 
@@ -97,19 +94,16 @@ export function applyEditableContent(editable: EditableContent): {
     ...enBase,
     hero: {
       ...enBase.hero,
-      tagline: editable.hero.tagline,
+      // Shared poster headline; keep EN tagline from base when different.
       headline: editable.hero.headline,
     },
     about: {
       ...enBase.about,
-      name: editable.about.name,
-      role: editable.about.role,
+      // Do NOT overwrite EN name/role/bio/skills with ZH CMS edits.
     },
     works: enWorks,
     credits: {
       ...enBase.credits,
-      title: editable.credits.title,
-      lines: editable.credits.lines,
     },
   };
 

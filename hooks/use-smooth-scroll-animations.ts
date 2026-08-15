@@ -126,6 +126,24 @@ export function useSmoothScrollAnimations() {
         });
       }
 
+      const creditsContent = document.querySelector(".credits-content");
+      if (creditsContent) {
+        gsap.fromTo(
+          creditsContent,
+          { y: "30%" },
+          {
+            y: "-90%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: ".credits-section",
+              start: "top top",
+              end: "bottom bottom",
+              scrub: 1.2,
+            },
+          }
+        );
+      }
+
       gsap.utils.toArray<HTMLElement>(".collage-layer").forEach((layer) => {
         const speed = Number(layer.dataset.speed ?? 0.3);
         gsap.to(layer, {

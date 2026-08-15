@@ -245,7 +245,7 @@ export const siteContent: SiteContentMap = {
       "> ALL SYSTEMS NOMINAL",
     ],
     hero: {
-      tagline: "我们如何抵达未来",
+      tagline: "How we arrive at the future",
       headline: "THE WAY IS OPEN FOR US",
       subheadline: "",
       period: "",

@@ -4,6 +4,17 @@ import { useEffect, useRef, useState } from "react";
 
 type Pulse = { id: number; x: number; y: number; angle: number };
 
+/** Tip sits ~13px forward from ship center along heading. */
+const TIP_OFFSET = 13;
+
+function tipFromCenter(cx: number, cy: number, angleDeg: number) {
+  const rad = (angleDeg * Math.PI) / 180;
+  return {
+    x: cx + TIP_OFFSET * Math.sin(rad),
+    y: cy - TIP_OFFSET * Math.cos(rad),
+  };
+}
+
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -26,11 +37,16 @@ export function CustomCursor() {
       pos.current = { x: e.clientX, y: e.clientY };
     };
 
-    const onDown = (e: MouseEvent) => {
+    const onDown = () => {
+      const tip = tipFromCenter(
+        current.current.x,
+        current.current.y,
+        angleRef.current
+      );
       const id = ++pulseId.current;
       setPulses((prev) => [
         ...prev.slice(-3),
-        { id, x: e.clientX, y: e.clientY, angle: angleRef.current },
+        { id, x: tip.x, y: tip.y, angle: angleRef.current },
       ]);
       window.setTimeout(() => {
         setPulses((prev) => prev.filter((p) => p.id !== id));
@@ -108,29 +124,28 @@ export function CustomCursor() {
             transform: `translate(-50%, -100%) rotate(${p.angle}deg)`,
           }}
         >
-          <svg fill="none" height="36" viewBox="0 0 40 36" width="40">
+          <svg fill="none" height="34" viewBox="0 0 40 34" width="40">
             <path
               className="wifi-bar wifi-bar-1"
-              d="M14 28 A8 8 0 0 1 26 28"
+              d="M14 26 A8 8 0 0 1 26 26"
               stroke="#c41e1e"
               strokeLinecap="round"
               strokeWidth="2.2"
             />
             <path
               className="wifi-bar wifi-bar-2"
-              d="M10 22 A14 14 0 0 1 30 22"
+              d="M10 20 A14 14 0 0 1 30 20"
               stroke="#c41e1e"
               strokeLinecap="round"
               strokeWidth="2.2"
             />
             <path
               className="wifi-bar wifi-bar-3"
-              d="M6 16 A20 20 0 0 1 34 16"
+              d="M6 14 A20 20 0 0 1 34 14"
               stroke="#c41e1e"
               strokeLinecap="round"
               strokeWidth="2.2"
             />
-            <circle cx="20" cy="32" fill="#d4a017" r="2" />
           </svg>
         </span>
       ))}
