@@ -217,7 +217,8 @@ export function AdminCms() {
         if (res.status === 401) {
           setAuthed(false);
         }
-        setStatus("保存失败");
+        const data = (await res.json().catch(() => ({}))) as { error?: string };
+        setStatus(data.error || "保存失败");
         return;
       }
       setStatus("已保存");

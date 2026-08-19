@@ -27,6 +27,12 @@ export async function PUT(request: Request) {
     return NextResponse.json({ ok: false, error: "Invalid payload" }, { status: 400 });
   }
 
-  await writeEditableContent(body);
-  return NextResponse.json({ ok: true });
+  try {
+    await writeEditableContent(body);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Save failed";
+    console.error("[admin/content]", error);
+    return NextResponse.json({ ok: false, error: message }, { status: 500 });
+  }
 }
