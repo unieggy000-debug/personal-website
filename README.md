@@ -2,7 +2,7 @@
 
 苏联太空时代美学个人作品集
 
-**在线预览：** https://personal-website-roan-rho-56.vercel.app/。
+**在线预览：** https://personal-website-roan-rho-56.vercel.app/
 
 ## 本地开发
 
