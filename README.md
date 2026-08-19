@@ -1,6 +1,6 @@
-# Carol · 周原 — Personal Portfolio
+# Carol — 个人网页
 
-苏联太空时代美学个人作品集，视觉风格参考 [Soviet Space longride](https://ussr-space.tilda.ws/en)。
+苏联太空时代美学个人作品集
 
 **在线预览：** 部署后见仓库 About 或 Vercel 控制台中的 Production URL。
 
