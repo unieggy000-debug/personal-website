@@ -32,8 +32,8 @@ const notoSans = Noto_Sans_SC({
 });
 
 export const metadata: Metadata = {
-  title: "Carol · 周原",
-  description: "周原的个人作品集 — AI 产品经理 / 跨学科创作者",
+  title: "Carol",
+  description: "Carol — AI 产品经理 / 跨学科创作者",
 };
 
 export default function RootLayout({
