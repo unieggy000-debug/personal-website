@@ -55,10 +55,13 @@ async function uploadImage(file: File): Promise<string> {
   const form = new FormData();
   form.append("file", file);
   const res = await fetch("/api/admin/upload", { method: "POST", body: form });
+  const data = (await res.json()) as { ok?: boolean; url?: string; error?: string };
   if (!res.ok) {
-    throw new Error("Upload failed");
+    throw new Error(data.error || "Upload failed");
   }
-  const data = (await res.json()) as { url: string };
+  if (!data.url) {
+    throw new Error("Upload returned no URL");
+  }
   return data.url;
 }
 
@@ -96,8 +99,8 @@ function ImageField({
               try {
                 const url = await uploadImage(file);
                 onChange(url);
-              } catch {
-                alert("上传失败");
+              } catch (err) {
+                alert(err instanceof Error ? err.message : "上传失败");
               } finally {
                 setUploading(false);
               }
