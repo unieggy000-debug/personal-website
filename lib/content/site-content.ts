@@ -203,7 +203,6 @@ export const siteContent: SiteContentMap = {
       { id: "home", label: "首页" },
       { id: "about", label: "简介" },
       { id: "works", label: "作品" },
-      { id: "credits", label: "致谢" },
     ],
   },
 
@@ -384,7 +383,6 @@ export const siteContent: SiteContentMap = {
       { id: "home", label: "HOME" },
       { id: "about", label: "ABOUT" },
       { id: "works", label: "WORKS" },
-      { id: "credits", label: "CREDITS" },
     ],
   },
 };

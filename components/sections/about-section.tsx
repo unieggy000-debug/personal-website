@@ -21,11 +21,12 @@ export function AboutSection({ about }: AboutSectionProps) {
 
   return (
     <section
-      className="about-section relative overflow-hidden px-6 py-20 md:px-10 md:py-24 lg:px-14"
+      className="about-section relative z-10 overflow-hidden px-6 py-20 md:px-10 md:py-24 lg:px-14"
       data-section
       id="about"
     >
-      <div className="relative mx-auto grid max-w-6xl gap-12 lg:grid-cols-[minmax(220px,0.9fr)_1.4fr] lg:gap-16 xl:gap-24">
+      <div className="about-panel relative mx-auto max-w-6xl px-6 py-10 md:px-10 md:py-12 lg:px-12">
+        <div className="relative grid gap-12 lg:grid-cols-[minmax(220px,0.9fr)_1.4fr] lg:gap-16 xl:gap-24">
         {/* Left: curved timeline */}
         <aside className="relative min-h-[420px] lg:min-h-[560px]">
           <svg
@@ -143,6 +144,7 @@ export function AboutSection({ about }: AboutSectionProps) {
             <CopyEmailButton showLabel variant="full" />
             <GithubLinkButton showLabel variant="full" />
           </div>
+        </div>
         </div>
       </div>
     </section>

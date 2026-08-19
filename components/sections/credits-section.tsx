@@ -6,15 +6,18 @@ type CreditsSectionProps = {
   content: LocaleContent["credits"];
 };
 
+/**
+ * Credits crawl — GSAP animates .credits-content; perspective on .credits-tilt wrapper.
+ */
 export function CreditsSection({ content }: CreditsSectionProps) {
   return (
     <section
-      className="credits-section relative min-h-[160vh] overflow-hidden"
+      className="credits-section relative z-10 -mt-10 h-[112vh] overflow-hidden bg-transparent md:-mt-14"
       data-section
       id="credits"
     >
       <div className="pointer-events-none absolute inset-0">
-        {Array.from({ length: 60 }).map((_, i) => (
+        {Array.from({ length: 50 }).map((_, i) => (
           <div
             className="absolute h-px w-px rounded-full bg-soviet-cream/40"
             key={`star-${i}`}
@@ -27,20 +30,22 @@ export function CreditsSection({ content }: CreditsSectionProps) {
         ))}
       </div>
 
-      <div className="credits-crawl sticky top-0 flex h-screen items-end justify-center overflow-hidden pb-0">
-        <div className="credits-content w-full max-w-3xl px-8 text-center">
-          <h2 className="display-text mb-12 text-4xl text-soviet-red md:text-6xl">
-            {content.title}
-          </h2>
+      <div className="credits-crawl sticky top-0 flex h-screen items-end justify-center overflow-hidden pb-6 md:pb-8">
+        <div className="credits-tilt w-full max-w-4xl px-8 text-center">
+          <div className="credits-content">
+            <h2 className="display-text mb-5 text-5xl text-soviet-red md:mb-6 md:text-7xl">
+              {content.title}
+            </h2>
 
-          {content.lines.map((line) => (
-            <p
-              className="display-text mb-8 text-lg text-soviet-gold md:text-2xl"
-              key={line.slice(0, 40)}
-            >
-              {line}
-            </p>
-          ))}
+            {content.lines.map((line) => (
+              <p
+                className="display-text mb-3 text-xl text-soviet-gold md:mb-4 md:text-3xl"
+                key={line.slice(0, 40)}
+              >
+                {line}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </section>

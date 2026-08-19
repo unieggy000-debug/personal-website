@@ -103,34 +103,19 @@ export function PortfolioSection({ works, ui }: PortfolioSectionProps) {
 
   return (
     <>
-      <section className="relative" data-section id="works">
-        <div className="overflow-hidden border-y border-soviet-red/20 bg-soviet-red/[0.04] py-2">
-          <div className="works-marquee mono-label flex whitespace-nowrap text-soviet-red/50">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <span className="mx-6" key={i}>
-                MISSION ARCHIVE · 精选作品 · SELECTED WORKS ·
-              </span>
-            ))}
-          </div>
-        </div>
-
+      <section className="relative z-10 overflow-hidden bg-transparent" data-section id="works">
         <div className="px-6 pt-10 pb-6 md:px-12 md:pt-14 md:pb-8">
-          <div className="mx-auto flex max-w-6xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="mono-label mb-2 text-soviet-red">
-                [ {ui.missionArchive} ]
-              </p>
-              <h2 className="display-text text-4xl text-soviet-cream md:text-6xl">
-                {ui.selectedWorks}
-              </h2>
-            </div>
-            <p className="max-w-sm font-mono text-sm text-soviet-cream/55 md:text-right">
-              {works.length} {ui.worksIntro}
+          <div className="mx-auto max-w-6xl">
+            <p className="mono-label mb-2 text-soviet-red">
+              [ {ui.missionArchive} ]
             </p>
+            <h2 className="display-text text-4xl text-soviet-cream md:text-6xl">
+              {ui.selectedWorks}
+            </h2>
           </div>
         </div>
 
-        <div className="horizontal-section relative h-[88vh] overflow-hidden md:h-screen">
+        <div className="horizontal-section relative h-screen overflow-hidden">
           <div className="horizontal-track flex h-full items-center gap-10 px-6 pt-6 md:gap-14 md:px-12">
             {works.map((work, i) => (
               <DossierCover
@@ -160,10 +145,6 @@ export function PortfolioSection({ works, ui }: PortfolioSectionProps) {
                 → MIAODA PROFILE
               </p>
             </a>
-          </div>
-
-          <div className="absolute bottom-6 left-6 md:left-12">
-            <p className="mono-label text-soviet-muted">{ui.scrollArchive}</p>
           </div>
         </div>
       </section>

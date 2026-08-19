@@ -1,44 +1,66 @@
-# Personal Site — Soviet Space Portfolio
+# Carol · 周原 — Personal Portfolio
 
-苏联太空时代美学个人作品集网站，视觉风格参考 [Soviet Space longride](https://ussr-space.tilda.ws/en)。
+苏联太空时代美学个人作品集，视觉风格参考 [Soviet Space longride](https://ussr-space.tilda.ws/en)。
 
-## 启动
+**在线预览：** 部署后见仓库 About 或 Vercel 控制台中的 Production URL。
+
+## 本地开发
 
 ```bash
-cd C:\AAA\projects\personal-website
+git clone https://github.com/unieggy000-debug/personal-website.git
+cd personal-website
 pnpm install   # 或 npm install
-pnpm dev       # 运行在 http://localhost:3001
+pnpm dev       # http://localhost:3001
+```
+
+## 部署（Vercel，推荐）
+
+1. 将本仓库推送到 GitHub：`unieggy000-debug/personal-website`
+2. 打开 [vercel.com/new](https://vercel.com/new)，Import 该仓库
+3. Framework Preset 选 **Next.js**，直接 Deploy
+4. 如需后台 CMS 写入，在 Vercel 项目 Settings → Environment Variables 添加（可选）：
+   - 生产环境需可写文件系统时，建议使用 Vercel Blob 或外部 CMS；当前 `/admin` 本地 JSON 写入在 Serverless 上仅适合只读部署
+
+也可使用 CLI：
+
+```bash
+npx vercel login
+npx vercel --prod
 ```
 
 ## 修改内容
 
-所有文字集中在 `lib/content/site-content.ts`，分为 **中文 (zh)** 和 **英文 (en)** 两套。
+文案集中在 `lib/content/site-content.ts`（中文 / 英文两套）。
 
-### 邮箱
+| 配置 | 位置 |
+|------|------|
+| 邮箱 | `siteConfig.email` |
+| 作品 | `works` 数组 |
+| 简介 / 时间线 | `about` |
+| 导航 | `navigation` |
 
-在 `siteConfig.email` 中修改你的邮箱地址。
-
-### 语言切换
-
-导航栏右侧 **中 / EN** 按钮切换语言，选择会保存到 localStorage。
+后台：`/admin`（入口：页脚拼贴连点 5 次），默认密码见 `lib/admin/auth.ts`（部署前请修改）。
 
 ## 技术栈
 
-- Next.js 16 + TypeScript + Tailwind CSS v4
-- GSAP ScrollTrigger（滚动动画、横向 Pin、文字揭示）
-- Lenis（平滑滚动）
-- 占位图片：Wikimedia Commons（公有领域苏联太空素材）
+- Next.js 16 · TypeScript · Tailwind CSS v4
+- GSAP ScrollTrigger · Lenis 平滑滚动
+- 长图视差背景 · 拼贴贴纸 · 自定义飞船光标
 
 ## 页面结构
 
-| Section | ID | 功能 |
+| Section | ID | 说明 |
 |---------|-----|------|
-| 首页 | `#home` | 开屏终端、Glitch 标题、可拖拽拼贴 |
-| 简介 | `#about` | 档案卡、时间线、技能标签 |
-| 作品 | `#works` | 横向 Pin 画廊 + 网格 + Modal 详情 |
-| 致谢 | `#credits` | 3D 透视字幕 + 终端 footer |
+| 首页 | `#home` | 海报标题 + 中文副标题 |
+| 简介 | `#about` | 档案卡、曲线时间线 |
+| 作品 | `#works` | 横向 Pin 档案画廊 |
+| 页脚 | `#site-footer` | 底部拼贴 |
 
-## 键盘快捷键
+## 快捷键
 
-- `1` `2` `3` `4` — 跳转到四个 section
-- `ESC` — 关闭作品详情 Modal
+- `1` `2` `3` — 跳转首页 / 简介 / 作品
+- `ESC` — 关闭作品详情弹窗
+
+## 仓库
+
+https://github.com/unieggy000-debug/personal-website

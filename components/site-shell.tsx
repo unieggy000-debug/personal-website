@@ -14,9 +14,10 @@ import { CustomCursor } from "@/components/ui/custom-cursor";
 import { HeroSection } from "@/components/sections/hero-section";
 import { AboutSection } from "@/components/sections/about-section";
 import { PortfolioSection } from "@/components/sections/portfolio-section";
-import { CreditsSection } from "@/components/sections/credits-section";
-import { FooterCollage } from "@/components/ui/footer-collage";
 import { BackgroundMusic } from "@/components/ui/background-music";
+import { SpaceScrollBackground } from "@/components/ui/space-scroll-background";
+import { FlyingStickers } from "@/components/ui/flying-stickers";
+import { FooterCollage } from "@/components/ui/footer-collage";
 
 function SiteContent() {
   useSmoothScrollAnimations();
@@ -33,11 +34,14 @@ function SiteContent() {
       <BackgroundMusic />
       <CrtOverlay />
 
-      <main className="custom-cursor-active relative bg-[#0a0a0a]">
-        <HeroSection hero={content.hero} />
-        <AboutSection about={content.about} />
-        <PortfolioSection ui={content.ui} works={content.works} />
-        <CreditsSection content={content.credits} />
+      <main className="custom-cursor-active site-atmosphere relative z-10 min-h-screen bg-transparent">
+        <div className="relative" data-scroll-zone>
+          <SpaceScrollBackground />
+          <FlyingStickers />
+          <HeroSection hero={content.hero} />
+          <AboutSection about={content.about} />
+          <PortfolioSection ui={content.ui} works={content.works} />
+        </div>
         <FooterCollage />
       </main>
     </>

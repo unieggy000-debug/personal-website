@@ -6,3 +6,8 @@ data/cms-content.json
 public/uploads/*
 !public/uploads/.gitkeep
 *.tsbuildinfo
+
+# Large generated / unused media (not referenced by the site)
+public/space-scroll.mp4
+public/space-scroll-h264.mp4
+public/space-subjects/

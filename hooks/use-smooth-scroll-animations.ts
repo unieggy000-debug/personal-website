@@ -26,6 +26,27 @@ export function useSmoothScrollAnimations() {
 
     lenis.on("scroll", ScrollTrigger.update);
 
+    ScrollTrigger.scrollerProxy(document.documentElement, {
+      scrollTop(value) {
+        if (value !== undefined) {
+          lenis.scrollTo(value, { immediate: true });
+        }
+        return lenis.scroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+      pinType: document.documentElement.style.transform ? "transform" : "fixed",
+    });
+
+    const onLenisRefresh = () => lenis.resize();
+    ScrollTrigger.addEventListener("refresh", onLenisRefresh);
+
     const rafCallback = (time: number) => {
       lenis.raf(time * 1000);
     };
@@ -109,10 +130,21 @@ export function useSmoothScrollAnimations() {
       const horizontalTrack = document.querySelector(".horizontal-track");
 
       if (horizontalSection && horizontalTrack) {
-        const getScrollDistance = () =>
-          horizontalTrack.scrollWidth - window.innerWidth;
+        const track = horizontalTrack as HTMLElement;
 
-        gsap.to(horizontalTrack, {
+        const getScrollDistance = () => {
+          const last = track.lastElementChild as HTMLElement | null;
+          if (!last) {
+            return 0;
+          }
+          const endGap = 48;
+          return Math.max(
+            0,
+            last.offsetLeft + last.offsetWidth + endGap - window.innerWidth
+          );
+        };
+
+        gsap.to(track, {
           x: () => -getScrollDistance(),
           ease: "none",
           scrollTrigger: {
@@ -121,28 +153,34 @@ export function useSmoothScrollAnimations() {
             end: () => `+=${getScrollDistance()}`,
             pin: true,
             scrub: 1,
+            anticipatePin: 1,
             invalidateOnRefresh: true,
           },
         });
+
+        const refreshHorizontal = () => ScrollTrigger.refresh();
+        window.addEventListener("load", refreshHorizontal);
+        window.addEventListener("resize", refreshHorizontal);
       }
 
-      const creditsContent = document.querySelector(".credits-content");
-      if (creditsContent) {
+      // Credits section removed from page.
+
+      gsap.utils.toArray<HTMLElement>("#about").forEach((section) => {
         gsap.fromTo(
-          creditsContent,
-          { y: "30%" },
+          section,
+          { y: 40 },
           {
-            y: "-90%",
+            y: 0,
             ease: "none",
             scrollTrigger: {
-              trigger: ".credits-section",
-              start: "top top",
-              end: "bottom bottom",
-              scrub: 1.2,
+              trigger: section,
+              start: "top 95%",
+              end: "top 55%",
+              scrub: 1,
             },
           }
         );
-      }
+      });
 
       gsap.utils.toArray<HTMLElement>(".collage-layer").forEach((layer) => {
         const speed = Number(layer.dataset.speed ?? 0.3);
@@ -174,8 +212,11 @@ export function useSmoothScrollAnimations() {
     });
 
     (window as Window & { __lenis?: Lenis }).__lenis = lenis;
+    ScrollTrigger.refresh();
+    window.dispatchEvent(new CustomEvent("scroll-animations-ready"));
 
     return () => {
+      ScrollTrigger.removeEventListener("refresh", onLenisRefresh);
       ctx.revert();
       gsap.ticker.remove(rafCallback);
       lenis.destroy();

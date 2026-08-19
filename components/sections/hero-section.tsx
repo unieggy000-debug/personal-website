@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef } from "react";
 import type { LocaleContent } from "@/lib/content/types";
 
@@ -59,29 +58,16 @@ function FitPosterTitle({ text }: { text: string }) {
 export function HeroSection({ hero }: HeroSectionProps) {
   return (
     <section
-      className="relative h-screen min-h-[600px] overflow-hidden"
+      className="relative z-10 h-screen min-h-[600px] overflow-hidden bg-transparent"
       data-section
       id="home"
     >
-      <div className="absolute inset-0">
-        <Image
-          alt=""
-          className="object-cover object-center"
-          fill
-          priority
-          sizes="100vw"
-          src="/hero-bg.png"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-black/20" />
-      </div>
-
-      {/* Chinese subtitle — mid-left, clear of red title */}
-      <p className="hero-poster-subtitle absolute top-[44%] left-4 z-20 md:left-10 lg:left-14">
+      <p className="hero-poster-subtitle absolute top-[58%] left-4 z-20 md:top-[56%] md:left-10 lg:left-14">
         {hero.tagline}
       </p>
 
-      <div className="pointer-events-none absolute top-[38%] right-6 z-10 hidden select-none md:block">
-        <span className="mono-label rotate-90 origin-top-right text-white/25 tracking-[0.4em]">
+      <div className="pointer-events-none absolute top-[50%] right-6 z-10 hidden select-none md:block">
+        <span className="mono-label origin-top-right rotate-90 tracking-[0.4em] text-white/25">
           ARCHIVE / 001
         </span>
       </div>
