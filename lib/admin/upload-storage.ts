@@ -1,7 +1,10 @@
 import { randomBytes } from "crypto";
 import { promises as fs } from "fs";
 import path from "path";
-import { writeBlobBytes } from "@/lib/admin/blob-client";
+import {
+  isBlobStorageAvailable,
+  writeBlobBytes,
+} from "@/lib/admin/blob-client";
 
 const EXT_BY_TYPE: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -33,16 +36,13 @@ export async function persistUploadedImage(
   name: string,
   contentType: string
 ): Promise<string> {
-  if (
-    process.env.BLOB_READ_WRITE_TOKEN ||
-    (process.env.VERCEL && process.env.VERCEL_OIDC_TOKEN)
-  ) {
+  if (isBlobStorageAvailable()) {
     return writeBlobBytes(`uploads/${name}`, buffer, contentType);
   }
 
   if (process.env.VERCEL) {
     throw new Error(
-      "Vercel Blob 未配置。请在 Vercel 项目 Storage 中创建 Blob 并关联本项目。"
+      "Vercel Blob 未配置。请在 Vercel 项目 carol → Storage 中创建 Public Blob，并关联 Production / Preview / Development 后重新部署。"
     );
   }
 

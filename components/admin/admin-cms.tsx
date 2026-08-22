@@ -147,7 +147,10 @@ export function AdminCms() {
 
   const checkSession = useCallback(async () => {
     try {
-      const res = await fetch("/api/admin/session", { cache: "no-store" });
+      const res = await fetch("/api/admin/session", {
+        cache: "no-store",
+        signal: AbortSignal.timeout(10000),
+      });
       const data = (await res.json()) as { ok: boolean };
       setAuthed(Boolean(data.ok));
       return data.ok;

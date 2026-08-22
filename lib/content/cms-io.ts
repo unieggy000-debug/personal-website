@@ -66,7 +66,7 @@ export async function writeEditableContent(
 
   if (process.env.VERCEL) {
     throw new Error(
-      "Vercel Blob 未配置，无法保存内容。请在 Vercel 项目 Storage 中创建 Blob 并关联本项目。"
+      "Vercel Blob 未配置，无法保存内容。请在 Vercel 项目 carol → Storage 中创建 Public Blob，并关联 Production / Preview / Development 后重新部署。"
     );
   }
 

@@ -1,40 +1,64 @@
-const BLOB_API = "https://blob.vercel-storage.com";
+import { head, put } from "@vercel/blob";
 
-function blobAuthToken(): string | null {
-  return process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_OIDC_TOKEN || null;
+const BLOB_CONTENT_PREFIX = "cms/";
+
+function envEntries(): [string, string | undefined][] {
+  return Object.entries(process.env);
 }
 
-function blobAuthHeaders(contentType?: string): Record<string, string> {
-  const token = blobAuthToken();
-  if (!token) {
-    throw new Error(
-      "Vercel Blob 未配置。请在 Vercel 项目 Storage 中创建 Blob 并关联本项目。"
-    );
+/** Vercel may inject a custom prefix when connecting a Blob store. */
+export function resolveBlobReadWriteToken(): string | undefined {
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    return process.env.BLOB_READ_WRITE_TOKEN;
   }
 
-  const headers: Record<string, string> = {
-    authorization: `Bearer ${token}`,
-    "x-vercel-blob-access": "public",
-    "x-add-random-suffix": "0",
-  };
-
-  if (contentType) {
-    headers["content-type"] = contentType;
+  for (const [key, value] of envEntries()) {
+    if (key.endsWith("_BLOB_READ_WRITE_TOKEN") && value) {
+      return value;
+    }
   }
 
-  const storeId = process.env.BLOB_STORE_ID;
-  if (storeId && process.env.VERCEL_OIDC_TOKEN && !process.env.BLOB_READ_WRITE_TOKEN) {
-    headers["x-vercel-blob-store-id"] = storeId;
+  return undefined;
+}
+
+export function resolveBlobStoreId(): string | undefined {
+  if (process.env.BLOB_STORE_ID) {
+    return process.env.BLOB_STORE_ID;
   }
 
-  return headers;
+  for (const [key, value] of envEntries()) {
+    if (key.endsWith("_BLOB_STORE_ID") && value) {
+      return value;
+    }
+  }
+
+  return undefined;
 }
 
 export function isBlobStorageAvailable(): boolean {
-  return Boolean(
-    process.env.BLOB_READ_WRITE_TOKEN ||
-      (process.env.VERCEL && process.env.VERCEL_OIDC_TOKEN)
+  if (resolveBlobReadWriteToken()) {
+    return true;
+  }
+
+  // On Vercel, connected stores can authenticate with OIDC + store id at runtime.
+  return Boolean(process.env.VERCEL && resolveBlobStoreId());
+}
+
+function blobNotConfiguredError() {
+  return new Error(
+    "Vercel Blob 未配置。请在 Vercel 项目 carol → Storage 中创建 Public Blob，并关联 Production / Preview / Development 后重新部署。"
   );
+}
+
+function putOptions(contentType: string) {
+  const token = resolveBlobReadWriteToken();
+  return {
+    access: "public" as const,
+    contentType,
+    addRandomSuffix: false,
+    allowOverwrite: true,
+    ...(token ? { token } : {}),
+  };
 }
 
 export async function readBlobText(pathname: string): Promise<string | null> {
@@ -42,23 +66,21 @@ export async function readBlobText(pathname: string): Promise<string | null> {
     return null;
   }
 
-  const response = await fetch(`${BLOB_API}/${encodeURIComponent(pathname)}`, {
-    headers: blobAuthHeaders(),
-    cache: "no-store",
-  });
-
-  if (response.status === 404) {
-    return null;
+  try {
+    const token = resolveBlobReadWriteToken();
+    const meta = await head(pathname, token ? { token } : undefined);
+    const response = await fetch(meta.url, { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error(`Blob fetch failed (${response.status})`);
+    }
+    return response.text();
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+    if (/not found|404|does not exist/i.test(message)) {
+      return null;
+    }
+    throw error;
   }
-
-  if (!response.ok) {
-    const detail = await response.text().catch(() => "");
-    throw new Error(
-      detail || `Blob read failed (${response.status} ${response.statusText})`
-    );
-  }
-
-  return response.text();
 }
 
 export async function writeBlobText(
@@ -66,18 +88,11 @@ export async function writeBlobText(
   body: string,
   contentType: string
 ): Promise<void> {
-  const response = await fetch(`${BLOB_API}/${encodeURIComponent(pathname)}`, {
-    method: "PUT",
-    headers: blobAuthHeaders(contentType),
-    body,
-  });
-
-  if (!response.ok) {
-    const detail = await response.text().catch(() => "");
-    throw new Error(
-      detail || `Blob write failed (${response.status} ${response.statusText})`
-    );
+  if (!isBlobStorageAvailable()) {
+    throw blobNotConfiguredError();
   }
+
+  await put(pathname, body, putOptions(contentType));
 }
 
 export async function writeBlobBytes(
@@ -85,22 +100,12 @@ export async function writeBlobBytes(
   buffer: Buffer,
   contentType: string
 ): Promise<string> {
-  const response = await fetch(`${BLOB_API}/${encodeURIComponent(pathname)}`, {
-    method: "PUT",
-    headers: blobAuthHeaders(contentType),
-    body: new Uint8Array(buffer),
-  });
-
-  if (!response.ok) {
-    const detail = await response.text().catch(() => "");
-    throw new Error(
-      detail || `Blob write failed (${response.status} ${response.statusText})`
-    );
+  if (!isBlobStorageAvailable()) {
+    throw blobNotConfiguredError();
   }
 
-  const payload = (await response.json()) as { url?: string };
-  if (!payload.url) {
-    throw new Error("Blob write returned no URL");
-  }
-  return payload.url;
+  const blob = await put(pathname, buffer, putOptions(contentType));
+  return blob.url;
 }
+
+export { BLOB_CONTENT_PREFIX };
