@@ -23,7 +23,7 @@ const workImages = {
   w2: "/works/work-02-hackathon.png",
   w3: "/works/work-03-zhishen-x.png",
   w4: "/works/work-04-idol.png",
-  w5: "/works/work-05-haiwang.png",
+  w5: "/works/work-05-catering-miniapp.png",
 };
 
 export const siteContent: SiteContentMap = {
@@ -171,15 +171,15 @@ export const siteContent: SiteContentMap = {
       },
       {
         id: "work-05",
-        title: "海王套路识别模拟器",
-        subtitle: "校园慎用版 · 反套路训练",
+        title: "企业级新中式高端餐饮外卖小程序",
+        subtitle: "应用模板",
         year: "2026",
-        category: "教育模拟",
+        category: "电商小程序",
         description:
-          "面向大学新生的关系安全训练 App：反套路关卡地图、7 个 AI 对话对象、回复生成器与清醒卡，帮助识别暧昧拉扯、画饼与情绪勒索，练习设边界与自我保护（不提供 PUA 教学）。",
+          "本应用基于秒哒平台开发，集成了高表现力视觉 UI 与智能化 Agent 交互。适用于希望通过高颜值界面提升转化率的餐饮品牌或开发者进行二次开发参考。",
         image: workImages.w5,
-        tags: ["反套路", "对话模拟", "边界训练"],
-        link: "https://app-dq922ch2vx8h.appmiaoda.com",
+        tags: ["电商", "小程序"],
+        link: "https://app-dvw5jp960dtt.appmiaoda.com",
       },
     ],
     credits: {
@@ -348,15 +348,15 @@ export const siteContent: SiteContentMap = {
       },
       {
         id: "work-05",
-        title: "PLAYER DETECTOR",
-        subtitle: "Campus Edition · Anti-Manipulation Training",
+        title: "NEW CHINESE CATERING MINI APP",
+        subtitle: "App Template",
         year: "2026",
-        category: "EDUCATION",
+        category: "E-COMMERCE MINI APP",
         description:
-          "Relationship safety trainer for college freshmen — anti-manipulation levels, AI chat personas, reply generator, and clarity cards to practice boundaries (not PUA tactics).",
+          "Built on the MiaoDa platform with high-impact visual UI and intelligent Agent interactions — a reference template for F&B brands and developers seeking conversion-focused design.",
         image: workImages.w5,
-        tags: ["Anti-Manipulation", "Chat Sim", "Boundaries"],
-        link: "https://app-dq922ch2vx8h.appmiaoda.com",
+        tags: ["E-commerce", "Mini App"],
+        link: "https://app-dvw5jp960dtt.appmiaoda.com",
       },
     ],
     credits: {
